@@ -31,8 +31,8 @@ RSpec.describe "User authentication" do
       fill_in "Password confirmation", with: "password"
       click_button "Create Account"
 
-      expect page.has_content? "Sign Out"
-      click_link "Sign Out"
+      expect page.has_content? "Log Out"
+      click_link "Log Out"
 
       expect(current_path).to eq root_path
     end
@@ -56,9 +56,22 @@ RSpec.describe "User authentication" do
 
       expect(current_path).to eq links_path
       expect page.has_content? "Welcome, Steve"
+      expect page.has_content? "Log Out"
     end
 
     it "can log out once logged in" do
+      visit root_path
+      click_link "Log In"
+
+      fill_in "Username", with: "Steve"
+      fill_in "Password", with: "password"
+      fill_in "Password confirmation", with: "password"
+
+      click_button "Log In"
+      expect(current_path).to eq links_path
+
+      click_link "Log Out"
+      expect(current_path).to eq root_path
     end
   end
 end
