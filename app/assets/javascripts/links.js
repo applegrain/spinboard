@@ -1,6 +1,21 @@
 $(document).ready(function() {
   renderAllLinks();
+  filterByInput();
 });
+
+function filterByInput() {
+  $('.search-by').on('click', function() {
+    $('.link').each(function() {
+      var searchTerm = $('.search-field').val();
+      var title = $(this).find('#title-' + $(this).data('id')).text();
+      var url   = $(this).find('#url-' + $(this).data('id')).text();
+
+      var content = title + url;
+      var match = content.indexOf(searchTerm) !== -1;
+      $(this).toggle(match);
+    });
+  });
+}
 
 function renderAllLinks() {
   $.ajax({
@@ -15,7 +30,7 @@ function renderAllLinks() {
 
 function mountLinksOnDom(links) {
   links.forEach(function(link) {
-    var newLink = $('<div class="idea" data-id="' + link.id + '">' +
+    var newLink = $('<div class="link" data-id="' + link.id + '">' +
                       '<h2 id="title-' + link.id + '">' + link.title + '</h2>' +
                       '<a id="url-' + link.id + '">' + link.url + '</a>' +
                       '<p class="status"><b>Read:</b><p id="status"> ' + getStatus(link) + '</p></p>' +
