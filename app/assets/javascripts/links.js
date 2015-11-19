@@ -23,8 +23,19 @@ function mountLinksOnDom(links) {
                         '<button id="mark-as-read-' + link.id + '" class="' + read(link) + '">Mark as read</button>' +
                         '<button id="mark-as-unread-' + link.id + '" class="' + unread(link) + '">Mark as unread</button>' +
                       '</div></p>' +
+                    '<button class="edit-link-' + link.id + '">Edit</button>' +
+                    '<div class="row" style="display: none;" id="edit-form-' + link.id + '">' +
+                      '<div>' +
+                        '<label>Title</label>' +
+                          '<input type="text" id="link-title-' + link.id + '" value="' + link.title + '">' +
+                        '<label>URL</label>' +
+                        '<input type="textfield" id="link-url-' + link.id + '" value="' + link.url + '">' +
+                      '</div>' +
+                      '<input id="submit-link-' + link.id + '" type="button" name="submit" value="Create Link">' +
                     '</div>');
 
+    onClickEditIdea(newLink);
+    onClickSubmitIdea(newLink);
     onClickMarkAsRead(newLink);
     onClickMarkAsUnread(newLink);
     $('.all-links').append(newLink);
@@ -43,6 +54,32 @@ function getStatus(link) {
   return link.status ? "read" : "unread"
 }
 
+function onClickEditIdea(link) {
+  link.find('.edit-link-' + link.data('id')).on('click', function() {
+    link.find('#edit-form-' + link.data('id')).toggle('fast');
+  });
+}
+
+function onClickSubmitIdea(link) {
+  link.find('#submit-link-' + link.data('id')).on('click', function() {
+    var title = link.find('#link-title-' + link.data('id')).val();
+    var url   = link.find('#link-url-' + link.data('id')).val();
+
+    updateLink(link, title, url);
+  });
+}
+
+function updateLink(link, title, url) {
+  $.ajax({
+    url: 'api/v1/links/' + link.data('id') + '/edit.json',
+    dataType: 'json',
+    data: { link: { title: title, url: url } },
+    type: 'GET',
+    success: function(response) {
+      link.find('#title-' + link.data('id')).text(title);
+    }
+  });
+}
 function onClickMarkAsRead(link) {
   link.find('#mark-as-read-' + link.data('id')).on('click', function() {
     markLinkAsRead(link, true);
