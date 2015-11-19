@@ -10,13 +10,15 @@
 
       <div class="form-group">
         <%= f.label :url %>
-        <%= f.text_field :url, placeholder: "URL" %>
+        <%= f.text_field :url, placeholder: "URL", class: "url-input" %>
       </div>
 
       <div class="form-group">
-        <%= f.submit "Add Link" %>
+        <%= f.submit "Add Link", class: "submit-new-link" %>
       </div>
     <% end %>
+
+    <h1>Summary: <%= @summary %></h1>
 
   <h1>Select filter:</h1>
   <input class='search-field' placeholder="Enter search term"/><button class="search-by">Search</button>

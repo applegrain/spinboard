@@ -2,6 +2,7 @@ class LinksController < ApplicationController
   def index
     @user = current_user
     @links = current_user.links
+    @summary = Link.last.display_summary
   end
 
   def create
