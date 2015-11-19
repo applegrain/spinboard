@@ -1,25 +1,31 @@
-<h1>Welcome, <%= @user.username %></h1>
+<% if current_user %>
+  <h1>Welcome, <%= @user.username %></h1>
 
-<%= form_for :link do |f| %>
-  <div class="form-group">
-    <%= f.label :title %>
-    <%= f.text_field :title, placeholder: "Title" %>
-  </div>
+  <h1>Submit a link</h1>
+    <%= form_for :link do |f| %>
+      <div class="form-group">
+        <%= f.label :title %>
+        <%= f.text_field :title, placeholder: "Title" %>
+      </div>
 
-  <div class="form-group">
-    <%= f.label :url %>
-    <%= f.text_field :url, placeholder: "URL" %>
-  </div>
+      <div class="form-group">
+        <%= f.label :url %>
+        <%= f.text_field :url, placeholder: "URL" %>
+      </div>
 
-  <div class="form-group">
-    <%= f.submit "Add Link" %>
-  </div>
+      <div class="form-group">
+        <%= f.submit "Add Link" %>
+      </div>
+    <% end %>
+
+
+  <h1>My Links</h1>
+
+  <div class="all-links"></div>
+<% else %>
+
+  <h1>You need to be logged in to view this page!</h1>
+  <% link_to "Already registered?", login_path %>
+  <% link_to "New User?", sign_up_path %>
+
 <% end %>
-
-<h1>Submit a link</h1>
-
-<ul>
-  <% @links.each do |link| %>
-    <li>Title: <%= link.title %> | Read: <%= link.status %></li>
-  <% end %>
-</ul>
