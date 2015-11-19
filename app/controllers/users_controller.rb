@@ -16,6 +16,7 @@ class UsersController < ApplicationController
 
   def successful_log_in(user)
     session[:user_id] = user.id
+    flash[:success] = "Logged in."
     redirect_to links_path
   end
 

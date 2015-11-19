@@ -13,6 +13,7 @@ class SessionsController < ApplicationController
 
   def destroy
     session.clear
+    flash[:danger] = "Logged Out."
     redirect_to root_path
   end
 
@@ -26,6 +27,6 @@ class SessionsController < ApplicationController
 
   def unsuccessful_log_in
     redirect_to login_path
-    flash[:danger] = "Invalid login information"
+    flash[:danger] = "Invalid login information."
   end
 end
