@@ -9,9 +9,11 @@ gem 'bcrypt', '~> 3.1.7'
 
 group :development, :test do
   gem 'pry-rails'
-  gem 'rspec'
+  gem 'rspec-rails'
   gem 'launchy'
   gem 'capybara'
+  gem 'database_cleaner'
+  gem 'simplecov', require: false
 end
 
 
