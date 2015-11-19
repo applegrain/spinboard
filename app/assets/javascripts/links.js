@@ -1,6 +1,7 @@
 $(document).ready(function() {
   renderAllLinks();
   filterByInput();
+  filterByRead();
 });
 
 function filterByInput() {
@@ -13,6 +14,16 @@ function filterByInput() {
       var content = title + url;
       var match = content.indexOf(searchTerm) !== -1;
       $(this).toggle(match);
+    });
+  });
+}
+
+function filterByRead() {
+  $('.filter-by-read').on('click', function() {
+    $('.link').each(function() {
+      var status = $(this).find('#status').text().trim();
+
+      if (status != 'read') { $(this).toggleClass('hidden') }
     });
   });
 }
