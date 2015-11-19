@@ -3,6 +3,7 @@ $(document).ready(function() {
   filterByInput();
   filterByRead();
   filterByUnread();
+  sortAlphabetically();
 });
 
 function filterByInput() {
@@ -37,7 +38,20 @@ function filterByUnread() {
       if (status != 'unread') { $(this).toggleClass('hidden') }
     });
   });
+}
 
+function sortAlphabetically() {
+  $('.filter-alphabetically').on('click', function() {
+    var children = $('.all-links').children().detach();
+
+    children.sort(function(a, b) {
+      if ($(a).find("h2").text().toLowerCase() > $(b).find("h2").text().toLowerCase()) return 1;
+      if ($(a).find("h2").text().toLowerCase() < $(b).find("h2").text().toLowerCase()) return -1;
+      return 0;
+    });
+
+    $(".all-links").append(children);
+  });
 }
 
 function renderAllLinks() {
