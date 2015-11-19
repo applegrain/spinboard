@@ -5,14 +5,14 @@ class LinksController < ApplicationController
   end
 
   def create
-    if Link.valid_url?(link_params[:url])
-      link = Link.create(link_params)
-      # why do I have to add the link manually?
+    link = Link.new(link_params)
+
+    if link.save && Link.valid_url?(link_params[:url])
       @links = current_user.links << link
       redirect_to links_path
     else
       redirect_to links_path
-      flash[:danger] = "Invalid URL."
+      flash[:danger] = link.errors.full_messages.join(", ")
     end
   end
 
