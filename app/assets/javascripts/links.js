@@ -2,6 +2,7 @@ $(document).ready(function() {
   renderAllLinks();
   filterByInput();
   filterByRead();
+  filterByUnread();
 });
 
 function filterByInput() {
@@ -26,6 +27,17 @@ function filterByRead() {
       if (status != 'read') { $(this).toggleClass('hidden') }
     });
   });
+}
+
+function filterByUnread() {
+  $('.filter-by-unread').on('click', function() {
+    $('.link').each(function() {
+      var status = $(this).find('#status').text().trim();
+
+      if (status != 'unread') { $(this).toggleClass('hidden') }
+    });
+  });
+
 }
 
 function renderAllLinks() {
