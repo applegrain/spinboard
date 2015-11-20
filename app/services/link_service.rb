@@ -5,12 +5,16 @@ class LinkService
   end
 
   def fetch_url_data(url)
-    resp = client.get(url).body.split("\n")
-    ary = []
-    resp.each do |line|
-      ary << line if line.include?("<title>")
+    begin
+      resp = client.get(url).body.split("\n")
+      ary = []
+      resp.each do |line|
+        ary << line if line.include?("<title>")
+      end
+      ary.first
+    rescue
+      []
     end
-    ary.first
   end
 
   private
