@@ -1,9 +1,8 @@
 $(document).ready(function() {
   renderAllLinks();
   filterByInput();
-  filterByRead();
-  filterByUnread();
   sortAlphabetically();
+  ['read', 'unread'].forEach(function(status) { filterBy(status) });
 });
 
 function filterByInput() {
@@ -20,22 +19,11 @@ function filterByInput() {
   });
 }
 
-function filterByRead() {
-  $('.filter-by-read').on('click', function() {
+function filterBy(status) {
+  $('.filter-by-' + status).on('click', function() {
     $('.link').each(function() {
-      var status = $(this).find('#status').text().trim();
-
-      if (status != 'read') { $(this).toggleClass('hidden') }
-    });
-  });
-}
-
-function filterByUnread() {
-  $('.filter-by-unread').on('click', function() {
-    $('.link').each(function() {
-      var status = $(this).find('#status').text().trim();
-
-      if (status != 'unread') { $(this).toggleClass('hidden') }
+      var currentStatus = $(this).find('#status').text().trim();
+      currentStatus != status ? $(this).addClass('hidden') : $(this).removeClass('hidden');
     });
   });
 }
@@ -73,7 +61,7 @@ function mountLinksOnDom(links) {
                       '<p class="status"><b>Read:</b><p id="status"> ' + getStatus(link) + '</p></p>' +
                       '<div class="change-status">' +
                         '<button id="mark-as-read-' + link.id + '" class="' + read(link) + '">Mark as read</button>' +
-                        '<button id="mark-as-unread-' + link.id + '" class="' + unread(link) + '">Mark as unread</button>' +
+                        '<button id="mark-as-unread-' + link.id + '" class="' + !(read(link)) + '">Mark as unread</button>' +
                       '</div></p>' +
                     '<button class="edit-link-' + link.id + '">Edit</button>' +
                     '<div class="row" style="display: none;" id="edit-form-' + link.id + '">' +
@@ -96,10 +84,6 @@ function mountLinksOnDom(links) {
 
 function read(link) {
   return link.status ? "hidden" : "";
-}
-
-function unread(link) {
-  return link.status ? "" : "hidden";
 }
 
 function getStatus(link) {
